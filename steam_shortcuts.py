@@ -12,7 +12,9 @@ from PIL import Image
 
 STEAM_API = "http://api.steampowered.com/"
 KEY = "66D1275E24E6B963247C47EF178BD6B1"
+# https://partner.steamgames.com/doc/webapi/IPlayerService
 games_endpoint = f"{STEAM_API}IPlayerService/GetOwnedGames/v0001/?key={KEY}&format=json&include_appinfo=true&include_played_free_games=true&steamid="
+# https://partner.steamgames.com/doc/webapi/ISteamUser
 id_endpoint = f"{STEAM_API}ISteamUser/ResolveVanityURL/v0001/?key={KEY}&vanityurl="
 http = urllib3.PoolManager()
 
@@ -116,9 +118,9 @@ Manually locate your Steam ID and enter it here if your username doesn't work!""
     body = json.loads(resolve_id.data.decode("utf-8"))
     if resolve_id.status != 200:
         print(f"Provided or resolved ID not working: {steam_id}")
-        print(f"Please check ID manually & report on GitHub if the issue persists.")
+        print("Please check ID manually & report on GitHub if the issue persists.")
     elif len(body["response"]) == 0:
-        print(f"\nEmpty response from SteamAPI")
+        print("\nEmpty response from SteamAPI")
         print(f"{steam_id}'s game library is not publicly visible")
         with open("error_log.txt", "a", encoding="utf-8") as f:
             f.write(f"Empty response from SteamAPI for user {username} ({steam_id}):\n")
